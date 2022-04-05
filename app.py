@@ -3,6 +3,7 @@ import pickle
 import datetime
 import pandas as pd
 import numpy as np
+import functions
 
 def temp_ressentie(temp,hum):
     temp_r = (-8.785) + 1.611*temp + 2.339*hum + 	(-0.146*temp*hum) + (-1.231*10**-2)*temp**2 + (-1.642*10**-2)*hum**2 + (2.212*10**-3)*(temp**2)*hum + (7.255*10**-4)*temp*(hum**2) + (-3.582*10**-6)*(temp**2)*(hum**2)
@@ -12,8 +13,7 @@ def temp_ressentie(temp,hum):
 def buid_df_graph(df_meteo,df):
     return 0
 
-def meteo(date):
-    return 0
+
 
 # App configs
 st.set_page_config(
@@ -21,6 +21,8 @@ page_title="Bike Sharing Demand Prediction",
 layout="centered",
 initial_sidebar_state="expanded",
 )
+
+st.write(functions.get_treat_48h_data()) # api request for next 48h
 
 # Heading
 st.markdown("<h1 style='text-align: center; background-color:deepskyblue'>🚴 Bike Rental Demand Predoction 🚴</h1>", 
