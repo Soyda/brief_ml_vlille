@@ -118,7 +118,7 @@ if st.button("Predict entire day"):
         model = pickle.load(savedmodel)
         savedmodel.close()
 
-        df = meteo(dt.date)
+        df = functions.get_treat_48h_data(dt.date)
 
         df = pd.DataFrame.from_dict(df)
         prediction = int(np.abs(np.expm1(model.predict(df))))
