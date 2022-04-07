@@ -24,7 +24,7 @@ initial_sidebar_state="expanded",
 
 # sidebar, navigation
 
-nav = st.sidebar.radio("Navigation", ["Home", "Clustering"])
+nav = st.sidebar.radio("Navigation", ["Home", "Clustering with K Means"])
 
 if nav == 'Home':
 
@@ -133,9 +133,8 @@ if nav == 'Home':
             st.success("La prédiction est de " + str(prediction) + " vélos")
             st.line_chart(data=range(0,20,1), width=0, height=0, use_container_width=True)
 
-if nav == 'Clustering':
-    st.write("Here you are")
-    functions.clustering()
+if nav == 'Clustering with K Means':
+    functions.clustering_kmeans()
 
 
 
