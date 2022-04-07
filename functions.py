@@ -7,6 +7,8 @@ import seaborn as sns
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
+from yellowbrick.cluster import SilhouetteVisualizer
 import streamlit as st
 
 def get_treat_48h_data():
@@ -287,13 +289,17 @@ def clustering_kmeans():
         ax.set_xticks(ks)
         st.write(fig)
 
-        st.write("Here we can deduct that the best number of cluster is 4.")
+        st.write("Here we can deduct that the best number of cluster is either 3 or 4.")
 
-        kmeans = KMeans(n_clusters= 4)
+        st.write("Let's check the silhouettes : ")
+        st.image("src/img/whales.png")
+        st.write("3 clusters looks more homogeneous so let's choose 3 clusters.")
+
+        kmeans = KMeans(n_clusters= 3)
         pred = kmeans.fit_predict(PCA_components)
 
         # visualizing clusters
-        st.write("After applying the 4 clusters we plot again our graphs of the PCA components, but this time we'll see the different clusters")
+        st.write("After applying the 3 clusters we plot again our graphs of the PCA components, but this time we'll see the different clusters")
         # plot PCA1 in function of PCA0
         centers = kmeans.cluster_centers_
         fig = plt.figure()
@@ -345,9 +351,10 @@ def clustering_kmeans():
         st.dataframe(df_cluster.groupby("cluster").agg({k:"mean" for k in df_cluster.columns}))
         st.write("Number of values by cluster :")
         st.dataframe(df_cluster["cluster"].value_counts())
-        st.write("It's noticeable that our clusters are almost homogeously splitted :")
-        st.write("  - we have two clusters with rather cool temperatures which differentiate themselves by wind speed and humidity")
-        st.write("  - we have two other clusters with rather warm temperatures which also differentiate themselves by wind speed and humidity")
+        st.write("It's noticeable that our clusters are almost homogeneously splitted and are explainable:")
+        st.write("  - we have one cluster with, in average, the lowest temperature and highest windspeed --> COLD WEATHER")
+        st.write("  - we have one cluster with, in average, a slightly warmer temperature, lowest windspeed, and highest humidity --> BAD WEATHER ")
+        st.write("  - we have one cluster with, in average, the highest temperature and moderate windspeed --> GOOD WEATHER")
 
         st.write("Grouped by weather :")
         st.dataframe(df_compare.groupby("weather").agg({k:"mean" for k in df_compare.columns}))
@@ -361,3 +368,10 @@ def clustering_kmeans():
         st.write("Here it's noticeable that the weather category is not homogeously splitted :")
         st.write("  - 66% of the rows are considered as category 1, 26% are category 2, 8% are category 3 and only one row is category 4")
         st.write("  - the only paramater which seems to influence the weather category is humidity")
+
+        st.write("Let's compare the silouhette scores :")
+        st.write("  - -0.08 for the original weather clustering, which means that the clusters are overlapping a lot and are not really distinct")
+        st.write("  - 0.26 for the clusters we created, which means that the clusters still are overlapping but a less, and are a little bit more distinct")
+        st.write("We can then consider our cluster as a little more accurate the one originally made.")
+
+        st.write("Finally by check the Rand score, we obtain 0.51, which means that half of one clustering matches with the other.")
