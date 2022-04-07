@@ -232,7 +232,7 @@ def clustering_kmeans():
     # Save components to a DataFrame
     PCA_components = pd.DataFrame(principalComponents)
 
-    st.write("Let's plot do some visualization of the PCA components in function of each other :")
+    st.write("Let's plot some visualization of the PCA components in function of each other :")
     # plot PCA1 in function of PCA0
     fig = plt.figure()
     ax = fig.add_subplot(1,1,1)
