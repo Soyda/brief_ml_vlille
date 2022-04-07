@@ -41,6 +41,7 @@ def get_treat_48h_data():
     forecast_df["month"] = forecast_df["dt"].dt.month
     forecast_df["year"] = forecast_df["dt"].dt.year
     forecast_df["hour"] = forecast_df["dt"].dt.hour
+    forecast_df["day"] = forecast_df["dt"].dt.day
     forecast_df["week_day"] = forecast_df["dt"].dt.strftime("%A")
 
     # create de month-day column to affect a number corresponding to the season
@@ -87,11 +88,14 @@ def get_treat_48h_data():
     forecast_df = forecast_df.rename(columns={"feels_like": "atemp", "wind_speed": "windspeed"})
 
     # only keeping the columns we want to use
-    forecast_df = forecast_df[["holiday", "weather", "temp", "atemp", "humidity", "windspeed", "month", "year", "hour", "saison", "week_day"]]
+    forecast_df = forecast_df[["holiday", "weather", "temp", "atemp", "humidity", "windspeed", "month", "year", "hour", "saison", "week_day", "day"]]
 
     return forecast_df
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> aeb7c64548f67dcb54f3221aebb3fdbc06f16ee6
 def get_treat_7days_data(arg_date):
 
     arg_date = dt.datetime.strptime(arg_date, '%Y-%m-%d')
@@ -126,6 +130,15 @@ def get_treat_7days_data(arg_date):
     temp_list = []
     atemp_list = []
     for h in date_df["hour"] :
+<<<<<<< HEAD
+        if h < 6 :
+            temp_list.append(date_df[date_df["hour"] == h]["temp.night"][h])
+            atemp_list.append(date_df[date_df["hour"] == h]["feels_like.night"][h])
+        elif h >= 6 and h < 12 :
+            temp_list.append(date_df[date_df["hour"] == h]["temp.morn"][h])
+            atemp_list.append(date_df[date_df["hour"] == h]["feels_like.morn"][h])
+        elif h >= 12 and h < 18 :
+=======
         if h < 6 or h >= 22 :
             temp_list.append(date_df[date_df["hour"] == h]["temp.night"][h])
             atemp_list.append(date_df[date_df["hour"] == h]["feels_like.night"][h])
@@ -133,6 +146,7 @@ def get_treat_7days_data(arg_date):
             temp_list.append(date_df[date_df["hour"] == h]["temp.morn"][h])
             atemp_list.append(date_df[date_df["hour"] == h]["feels_like.morn"][h])
         elif h > 12 and h < 18 :
+>>>>>>> aeb7c64548f67dcb54f3221aebb3fdbc06f16ee6
             temp_list.append(date_df[date_df["hour"] == h]["temp.day"][h])
             atemp_list.append(date_df[date_df["hour"] == h]["feels_like.day"][h])
         else :
@@ -146,6 +160,10 @@ def get_treat_7days_data(arg_date):
     date_df["month"] = date_df["dt"].dt.month
     date_df["year"] = date_df["dt"].dt.year
     date_df["week_day"] = date_df["dt"].dt.strftime("%A")
+<<<<<<< HEAD
+    date_df["day"] = date_df["dt"].dt.day
+=======
+>>>>>>> aeb7c64548f67dcb54f3221aebb3fdbc06f16ee6
 
     date_df['MM-DD'] = pd.to_datetime(date_df['dt']).dt.strftime('%m-%d')
 
@@ -183,6 +201,13 @@ def get_treat_7days_data(arg_date):
 
     date_df = date_df.rename(columns={"wind_speed": "windspeed"})
 
+<<<<<<< HEAD
+    date_df = date_df[["holiday", "weather", "temp", "atemp", "humidity", "windspeed", "month", "year", "hour", "saison", "week_day","day"]]
+
+    return date_df
+
+def clustering():
+=======
     date_df = date_df[["holiday", "weather", "temp", "atemp", "humidity", "windspeed", "month", "year", "hour", "saison", "week_day"]]
 
     return date_df
@@ -190,6 +215,7 @@ def get_treat_7days_data(arg_date):
 
 # @st.experimental_memo(suppress_st_warning=True)
 def clustering_kmeans():
+>>>>>>> aeb7c64548f67dcb54f3221aebb3fdbc06f16ee6
     """Function that do a clustering using k means, on our data
     """
     st.title("Clustering with K Means")
@@ -199,6 +225,7 @@ def clustering_kmeans():
 
     st.write("We load the data :")
     # loading data
+
     df = pd.read_csv("src/dataset_cleaned.csv")
     st.dataframe(df)
 
@@ -218,6 +245,30 @@ def clustering_kmeans():
 
     # Plot the explained variances
     features = range(pca.n_components_)
+<<<<<<< HEAD
+    c1, c2, c3 = st.columns([1,3,1])
+    with c2:
+        fig = plt.figure()
+        ax = fig.add_subplot(1,1,1)
+        ax.bar(features, pca.explained_variance_ratio_, color='black')
+        ax.set_xlabel("PCA features")
+        ax.set_ylabel("variance %")
+        ax.set_xticks(features)
+        st.write(fig)
+
+        # Save components to a DataFrame
+        PCA_components = pd.DataFrame(principalComponents)
+
+        # plot PCA1 in function of PCA0
+        fig = plt.figure()
+        ax = fig.add_subplot(1,1,1)
+        ax.scatter(PCA_components[0], PCA_components[1], alpha=.1, color='black')
+        ax.set_xlabel("PCA 0")
+        ax.set_ylabel("PCA 1")
+        st.write(fig)
+
+        # plot PCA2 in function of PCA0
+=======
 
     # c1, c2, c3 = st.columns([1,3,1])
     fig = plt.figure()
@@ -243,6 +294,7 @@ def clustering_kmeans():
 
     with st.expander("See more"):
     # plot PCA2 in function of PCA0
+>>>>>>> aeb7c64548f67dcb54f3221aebb3fdbc06f16ee6
         fig = plt.figure()
         ax = fig.add_subplot(1,1,1)
         ax.scatter(PCA_components[0], PCA_components[2], alpha=.1, color='black')
@@ -258,6 +310,45 @@ def clustering_kmeans():
         ax.set_ylabel("PCA 2")
         st.write(fig)
 
+<<<<<<< HEAD
+        # K Means
+        # elbow curve
+        ks = range(1, 10)
+        inertias = []
+        for k in ks:
+            # Create a KMeans instance with k clusters: model
+            model = KMeans(n_clusters=k)
+            
+            # Fit model to samples
+            model.fit(PCA_components.iloc[:,:3])
+            
+            # Append the inertia to the list of inertias
+            inertias.append(model.inertia_)
+            
+        # plot elbow curve
+        fig = plt.figure()
+        ax = fig.add_subplot(1,1,1)
+        ax.plot(ks, inertias, '-o', color='black')
+        ax.set_xlabel('number of clusters, k')
+        ax.set_ylabel('inertia')
+        ax.set_xticks(ks)
+        st.write(fig)
+
+        kmeans = KMeans(n_clusters= 4)
+        pred = kmeans.fit_predict(PCA_components)
+
+        # visualizing clusters
+        # plot PCA1 in function of PCA0
+        centers = kmeans.cluster_centers_
+        fig = plt.figure()
+        ax = fig.add_subplot(1,1,1)
+        ax.scatter(PCA_components.values[:, 0], PCA_components.values[:, 1], c=pred, s=50, cmap='viridis')
+        ax.scatter(centers[:, 0], centers[:, 1], c='black', s=200, alpha=0.5)
+        ax.set_xlabel("PCA 0")
+        ax.set_ylabel("PCA 1")
+        st.write(fig)
+
+=======
     # K Means
     st.write("Now let's use K-Means method to find our clusters.")
     st.write("First let's plot an elbow curve to estimate the optimal number of clusters :")
@@ -301,6 +392,7 @@ def clustering_kmeans():
     st.write(fig)
 
     with st.expander("See more"):
+>>>>>>> aeb7c64548f67dcb54f3221aebb3fdbc06f16ee6
         # plot PCA2 in function of PCA0
         centers = kmeans.cluster_centers_
         fig = plt.figure()
@@ -321,6 +413,24 @@ def clustering_kmeans():
         ax.set_ylabel("PCA 2")
         st.write(fig)
 
+<<<<<<< HEAD
+        # concat to dataframe
+        df_cluster = pd.concat([df_kmeans, PCA_components.iloc[:,:3]], axis=1)
+        df_cluster.columns.values[-3:] = ["PCA_0", "PCA_1", "PCA_2"]
+        df_cluster["cluster"] = kmeans.labels_
+        st.write(df_cluster)
+
+        # groupby cluster
+        # st.write(df_cluster.groupby("cluster").agg({k:"mean" for k in df_cluster.columns}))
+
+        # adding weather column to compare
+        df_compare = df[["temp", "humidity", "windspeed", "atemp", "weather"]]
+        df_compare["cluster"] = kmeans.labels_
+
+        # groupby cluster and weather to compare
+        st.write(df_cluster.groupby("cluster").agg({k:"mean" for k in df_cluster.columns}))
+        st.write(df_compare.groupby("weather").agg({k:"mean" for k in df_compare.columns}))
+=======
     st.write("We add the columns containing the clusters (from 0 to 3) to our dataframe :")
     # concat to dataframe
     df_cluster = pd.concat([df_kmeans, PCA_components.iloc[:,:3]], axis=1)
@@ -357,3 +467,4 @@ def clustering_kmeans():
     st.write("Here it's noticeable that the weather category is not homogeously splitted :")
     st.write("  - 66% of the rows are considered as category 1, 26% are category 2, 8% are category 3 and only one row is category 4")
     st.write("  - the only paramater which seems to influence the weather category is humidity")
+>>>>>>> aeb7c64548f67dcb54f3221aebb3fdbc06f16ee6
