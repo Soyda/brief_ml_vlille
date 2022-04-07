@@ -188,8 +188,6 @@ def get_treat_7days_data(arg_date):
     return date_df
 
 
-
-
 @st.experimental_memo(suppress_st_warning=True)
 def clustering_kmeans():
     """Function that do a clustering using k means, on our data
