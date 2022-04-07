@@ -188,7 +188,7 @@ def get_treat_7days_data(arg_date):
     return date_df
 
 
-@st.experimental_memo(suppress_st_warning=True)
+# @st.experimental_memo(suppress_st_warning=True)
 def clustering_kmeans():
     """Function that do a clustering using k means, on our data
     """
@@ -219,6 +219,7 @@ def clustering_kmeans():
     # Plot the explained variances
     features = range(pca.n_components_)
 
+    # c1, c2, c3 = st.columns([1,3,1])
     fig = plt.figure()
     ax = fig.add_subplot(1,1,1)
     ax.bar(features, pca.explained_variance_ratio_, color='black')
