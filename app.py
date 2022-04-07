@@ -17,6 +17,7 @@ layout="wide",
 initial_sidebar_state="expanded"
 )
 
+<<<<<<< HEAD
 st.markdown(
     """
     <style>
@@ -38,6 +39,11 @@ st.markdown(
 st.sidebar.write("<h1><b> Navigation</b></h1>", unsafe_allow_html=True)
 nav = st.sidebar.radio("", ["Home", "Clustering"])
 st.sidebar.write("<br>", unsafe_allow_html=True)
+=======
+# sidebar, navigation
+
+nav = st.sidebar.radio("Navigation", ["Home", "Clustering with K Means"])
+>>>>>>> aeb7c64548f67dcb54f3221aebb3fdbc06f16ee6
 
 if nav == 'Home':
 
@@ -209,6 +215,7 @@ if nav == 'Home':
             model = pickle.load(savedmodel)
             savedmodel.close()
 
+<<<<<<< HEAD
             df = functions.get_treat_7days_data(str(date2))
             prediction = np.round(np.abs(np.expm1(model.predict(df))))
             prediction = pd.DataFrame(prediction)
@@ -230,6 +237,12 @@ if nav == 'Clustering':
     st.write("Here you are")
     functions.clustering()
     
+=======
+if nav == 'Clustering with K Means':
+    functions.clustering_kmeans()
+
+
+>>>>>>> aeb7c64548f67dcb54f3221aebb3fdbc06f16ee6
 
 
 
