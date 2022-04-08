@@ -372,6 +372,7 @@ def clustering_kmeans():
         st.write("Let's compare the silouhette scores :")
         st.write("  - -0.08 for the original weather clustering, which means that the clusters are overlapping a lot and are not really distinct")
         st.write("  - 0.26 for the clusters we created, which means that the clusters still are overlapping but a less, and are a little bit more distinct")
-        st.write("We can then consider our cluster as a little more accurate the one originally made.")
 
-        st.write("Finally by check the Rand score, we obtain 0.51, which means that half of one clustering matches with the other.")
+        st.write("Also by checking the Rand Indice (similarity score), we obtain 0.51, which means that half of one clustering matches with the other.")
+
+        st.write("It's hard to say if our clusters are better, to be sure it could help to have the exact same datas that 'weather' is based on to build our clusters.")
